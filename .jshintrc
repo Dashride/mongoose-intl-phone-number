@@ -1,0 +1,18 @@
+{
+  "esnext": true,
+  "undef": true,
+  "unused": "vars",
+  "node": true,
+  "predef": [
+      "module",
+      "require",
+      "process",
+      "describe",
+      "before",
+      "beforeEach",
+      "after",
+      "it",
+      "console",
+      "setTimeout"
+  ]
+}
