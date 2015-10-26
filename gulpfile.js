@@ -64,7 +64,7 @@ gulp.task('coverage', function(done) {
     return gulp.src(paths.es6.js)
         .pipe(istanbul({
             instrumenter: isparta.Instrumenter,
-            includeUntested: true
+            includeUntested: false
         }))
         .pipe(istanbul.hookRequire())
         .on('finish', function() {
