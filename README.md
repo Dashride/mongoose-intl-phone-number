@@ -60,15 +60,18 @@ Resulting document...
     "countryCode": "US"
 }
  ```
-<a name="module_mongooseIntlPhoneNumber..options"></a>
-### mongooseIntlPhoneNumber~options
-**Kind**: inner property of <code>[mongooseIntlPhoneNumber](#module_mongooseIntlPhoneNumber)</code>  
+<a name="module_mongooseIntlPhoneNumber..mongooseIntlPhoneNumber"></a>
+### mongooseIntlPhoneNumber~mongooseIntlPhoneNumber(schema, [options])
+Attaches the mongoose document hook and parses the phone number that is provided.
 
-| Param | Type | Default |
-| --- | --- | --- |
-| options | <code>object</code> |  | 
-| options.hook | <code>string</code> | <code>&quot;validate&quot;</code> | 
-| options.phoneNumberField | <code>string</code> | <code>&quot;phoneNumber&quot;</code> | 
-| options.nationalFormatField | <code>string</code> | <code>&quot;nationalFormat&quot;</code> | 
-| options.phoneNumberField | <code>string</code> | <code>&quot;countryCode&quot;</code> | 
+**Kind**: inner method of <code>[mongooseIntlPhoneNumber](#module_mongooseIntlPhoneNumber)</code>  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| schema | <code>object</code> |  | Mongoose schema |
+| [options] | <code>object</code> |  |  |
+| [options.hook] | <code>string</code> | <code>&quot;validate&quot;</code> |  |
+| [options.phoneNumberField] | <code>string</code> | <code>&quot;phoneNumber&quot;</code> |  |
+| [options.nationalFormatField] | <code>string</code> | <code>&quot;nationalFormat&quot;</code> |  |
+| [options.phoneNumberField] | <code>string</code> | <code>&quot;countryCode&quot;</code> |  |
 

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { expect } from 'chai';
-import mongooseIntlPhoneNumber from './mongoose-intl-phone-number';
+import { mongooseIntlPhoneNumber } from './mongoose-intl-phone-number';
 
 var Schema = mongoose.Schema,
     connection;

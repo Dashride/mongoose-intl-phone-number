@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import { IntlPhoneNumber } from './intl-phone-number';
 
 /**
@@ -43,35 +42,31 @@ Resulting document...
 }
  ```
  */
-module.exports = function mongooseIntlPhoneNumber(schema, options) {
-    /**
-    * @param  {object} options
-    * @param  {string} options.hook=validate
-    * @param  {string} options.phoneNumberField=phoneNumber
-    * @param  {string} options.nationalFormatField=nationalFormat
-    * @param  {string} options.phoneNumberField=countryCode
-    */
-    options = _.merge({
-        hook: 'validate',
-        phoneNumberField: 'phoneNumber',
-        nationalFormatField: 'nationalFormat',
-        countryCodeField: 'countryCode'
-    }, options || {});
+/**
+ * Attaches the mongoose document hook and parses the phone number that is provided.
+ * @param  {object} schema - Mongoose schema
+ * @param  {object} [options]
+ * @param  {string} [options.hook=validate]
+ * @param  {string} [options.phoneNumberField=phoneNumber]
+ * @param  {string} [options.nationalFormatField=nationalFormat]
+ * @param  {string} [options.phoneNumberField=countryCode]
+ */
+function mongooseIntlPhoneNumber(schema, {
+    hook = 'validate',
+    phoneNumberField = 'phoneNumber',
+    nationalFormatField = 'nationalFormat',
+    countryCodeField = 'countryCode'
+} = {}) {
 
-
-    schema.pre(options.hook, function parsePhoneNumber(next) {
+    schema.pre(hook, function parsePhoneNumber(next) {
         try {
-            let phoneNumber = this[options.phoneNumberField];
+            let phoneNumber = this[phoneNumberField];
             let intlPhoneNumber = new IntlPhoneNumber(phoneNumber);
 
             if(intlPhoneNumber.isValid) {
-                let countryCode = intlPhoneNumber.countryCode;
-                let e164Format = intlPhoneNumber.e164Format;
-                let nationalFormat = intlPhoneNumber.nationalFormat;
-
-                this[options.phoneNumberField] = e164Format;
-                this[options.nationalFormatField] = nationalFormat;
-                this[options.countryCodeField] = countryCode;
+                this[phoneNumberField] = intlPhoneNumber.e164Format;
+                this[nationalFormatField] = intlPhoneNumber.nationalFormat;
+                this[countryCodeField] = intlPhoneNumber.countryCode;
                 next();
 
             } else {
@@ -82,4 +77,7 @@ module.exports = function mongooseIntlPhoneNumber(schema, options) {
             next(new Error(e));
         }
     });
-};
+
+}
+
+export { mongooseIntlPhoneNumber };

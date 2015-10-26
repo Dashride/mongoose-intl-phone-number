@@ -1,1 +1,1 @@
-module.exports = require('lib/mongoose-intl-phone-number');
+module.exports = require('lib/mongoose-intl-phone-number').mongooseIntlPhoneNumber;
