@@ -1,6 +1,6 @@
 {
   "name": "mongoose-intl-phone-number",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A configurable mongoose.js plugin that parses phone numbers and stores data about them in the document.",
   "main": "index.js",
   "scripts": {
