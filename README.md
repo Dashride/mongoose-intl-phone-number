@@ -31,6 +31,7 @@ schema.plugin(mongooseIntlPhoneNumber, {
     hook: 'validate',
     phoneNumberField: 'phoneNumber',
     nationalFormatField: 'nationalFormat',
+    internationalFormat: 'internationalFormat',
     countryCodeField: 'countryCode',
 });
 ```
@@ -57,6 +58,7 @@ Resulting document...
     "customerType": "testing",
     "phoneNumber": "+18888675309",
     "nationalFormat": "(888) 867-5309",
+    "internationalFormat": "+1 888-867-5309"
     "countryCode": "US"
 }
  ```
@@ -73,5 +75,6 @@ Attaches the mongoose document hook and parses the phone number that is provided
 | [options.hook] | <code>string</code> | <code>&quot;validate&quot;</code> |  |
 | [options.phoneNumberField] | <code>string</code> | <code>&quot;phoneNumber&quot;</code> |  |
 | [options.nationalFormatField] | <code>string</code> | <code>&quot;nationalFormat&quot;</code> |  |
+| [options.internationalFormatField] | <code>string</code> | <code>&quot;internationalFormat&quot;</code> |  |
 | [options.phoneNumberField] | <code>string</code> | <code>&quot;countryCode&quot;</code> |  |
 

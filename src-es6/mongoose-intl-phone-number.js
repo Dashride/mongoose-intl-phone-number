@@ -12,6 +12,7 @@ schema.plugin(mongooseIntlPhoneNumber, {
     hook: 'validate',
     phoneNumberField: 'phoneNumber',
     nationalFormatField: 'nationalFormat',
+    internationalFormat: 'internationalFormat',
     countryCodeField: 'countryCode',
 });
 ```
@@ -38,6 +39,7 @@ Resulting document...
     "customerType": "testing",
     "phoneNumber": "+18888675309",
     "nationalFormat": "(888) 867-5309",
+    "internationalFormat": "+1 888-867-5309"
     "countryCode": "US"
 }
  ```
