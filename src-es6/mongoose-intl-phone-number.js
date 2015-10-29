@@ -49,12 +49,14 @@ Resulting document...
  * @param  {string} [options.hook=validate]
  * @param  {string} [options.phoneNumberField=phoneNumber]
  * @param  {string} [options.nationalFormatField=nationalFormat]
+ * @param  {string} [options.internationalFormatField=internationalFormat]
  * @param  {string} [options.phoneNumberField=countryCode]
  */
 function mongooseIntlPhoneNumber(schema, {
     hook = 'validate',
     phoneNumberField = 'phoneNumber',
     nationalFormatField = 'nationalFormat',
+    internationalFormatField = 'internationalFormat',
     countryCodeField = 'countryCode'
 } = {}) {
 
@@ -66,6 +68,7 @@ function mongooseIntlPhoneNumber(schema, {
             if(intlPhoneNumber.isValid) {
                 this[phoneNumberField] = intlPhoneNumber.e164Format;
                 this[nationalFormatField] = intlPhoneNumber.nationalFormat;
+                this[internationalFormatField] = intlPhoneNumber.internationalFormat;
                 this[countryCodeField] = intlPhoneNumber.countryCode;
                 next();
 

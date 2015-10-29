@@ -66,6 +66,14 @@ class IntlPhoneNumber {
     }
 
     /**
+     * Returns the international format for the parsed number.
+     * @return {string}
+     */
+    get internationalFormat() {
+        return phoneUtil.format(this.number, PhoneNumberFormat.INTERNATIONAL);
+    }
+
+    /**
      * Determines the proper error message based on the error code.
      * @return {string}
      */

@@ -13,6 +13,7 @@ function customerSchema() {
         phoneNumber: { type: String },
         countryCode: { type: String },
         nationalFormat: { type: String },
+        internationalFormat: { type: String },
         email: { type: String }
     });
 }
@@ -57,6 +58,7 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
                 } else {
                     expect(customer.phoneNumber).to.equal('+18888675309');
                     expect(customer.nationalFormat).to.equal('(888) 867-5309');
+                    expect(customer.internationalFormat).to.equal('+1 888-867-5309');
                     expect(customer.countryCode).to.equal('US');
                     done();
                 }
@@ -150,6 +152,7 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
                 hook: 'save',
                 phoneNumberField: 'phoneNumber',
                 nationalFormatField: 'ntlFormat',
+                internationalFormatField: 'intlFormat',
                 countryCodeField: 'ccode',
             });
         });
@@ -169,6 +172,7 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
                 } else {
                     expect(customer.phoneNumber).to.equal('+18888675309');
                     expect(customer.ntlFormat).to.equal('(888) 867-5309');
+                    expect(customer.intlFormat).to.equal('+1 888-867-5309');
                     expect(customer.ccode).to.equal('US');
                     done();
                 }
