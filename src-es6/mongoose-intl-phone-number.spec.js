@@ -5,6 +5,8 @@ import { mongooseIntlPhoneNumber } from './mongoose-intl-phone-number';
 var Schema = mongoose.Schema,
     connection;
 
+mongoose.Promise = global.Promise;
+
 function customerSchema() {
     return new Schema({
         firstName: { type: String },
@@ -62,6 +64,62 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
                     expect(customer.countryCode).to.equal('US');
                     done();
                 }
+            });
+        });
+
+        it('should not throw an error if the number was incorrect and not directly modified', function(done) {
+            let customer = new Customer({
+                firstName: 'test',
+                lastName: 'customer',
+                customerType: 'testing',
+                phoneNumber: '+18888675309',
+                email: 'test@testing.com'
+            });
+
+            customer.save().then((customer) => {
+                return Customer.findOneAndUpdate({
+                    _id: customer._id
+                }, {
+                    $set: {
+                        phoneNumber: '+188886753099'
+                    }
+                }, {
+                    new: true
+                }).exec();
+            })
+            .then((customer) => {
+                customer.firstName = 'testing';
+                return customer.save();
+            })
+            .then((customer) => {
+                expect(customer.phoneNumber).to.equal('+188886753099');
+                expect(customer.firstName).to.equal('testing');
+                done();
+            })
+            .catch((err) => {
+                done(err);
+            });
+        });
+
+        it('should throw an error if the number was directly modified and incorrect', function(done) {
+            let customer = new Customer({
+                firstName: 'test',
+                lastName: 'customer',
+                customerType: 'testing',
+                phoneNumber: '+18888675309',
+                email: 'test@testing.com'
+            });
+
+            customer.save().then((customer) => {
+                customer.phoneNumber = '+188886753099';
+                return customer.save();
+            })
+            .then((customer) => {
+                done(new Error('No error was thrown'));
+            })
+            .catch((err) => {
+                expect(err.message).to.equal('Phone number is not valid. Number is too long.');
+                done();
             });
         });
 

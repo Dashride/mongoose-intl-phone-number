@@ -75,7 +75,13 @@ function mongooseIntlPhoneNumber(schema, {
                 next();
 
             } else {
-                next(new Error(intlPhoneNumber.errorMsg));
+                // Only return validation errors if the document is new or phone number has been modified.
+                if(this.isNew || this.isDirectModified('phoneNumber')) {
+                    next(new Error(intlPhoneNumber.errorMsg));
+                } else {
+                    next();
+                }
+
             }
 
         } catch(e) {
