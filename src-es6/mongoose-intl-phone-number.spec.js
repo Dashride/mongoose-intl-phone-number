@@ -20,9 +20,21 @@ function customerSchema() {
     });
 }
 
+function customerSubocOverrideSchema() {
+    return new Schema({
+        firstName: { type: String },
+        lastName: { type: String },
+        customerType: { type: String },
+        contact: {
+            phoneNumber: { type: String },
+            email: { type: String }
+        }
+    });
+}
+
 describe('Mongoose plugin: mongoose-intl-phone-number', function() {
     before((done) => {
-        connection = mongoose.createConnection('mongodb://localhost/unit_test');
+        connection = mongoose.createConnection('mongodb://192.168.99.100:32780/unit_test');
         connection.once('connected', () => {
             done();
         });
@@ -201,11 +213,10 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
     });
 
     describe('with default overrides', function() {
-        let testSchema, CustomerOverrides;
+        var testSchema, CustomerOverrides;
 
         before(function() {
             testSchema = customerSchema();
-            CustomerOverrides = connection.model('CustomerOverrides', testSchema);
             testSchema.plugin(mongooseIntlPhoneNumber, {
                 hook: 'save',
                 phoneNumberField: 'phoneNumber',
@@ -213,10 +224,11 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
                 internationalFormatField: 'intlFormat',
                 countryCodeField: 'ccode',
             });
+            CustomerOverrides = connection.model('CustomerOverrides', testSchema);
         });
 
-        it('should parse the phone number and store the data to the specified fields', function(done) {
-            let customer = new CustomerOverrides({
+        it('should parse the phone number and store the data to the specified fields', function() {
+            var customer = new CustomerOverrides({
                 firstName: 'test',
                 lastName: 'customer',
                 customerType: 'testing',
@@ -224,16 +236,46 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
                 email: 'test@testing.com'
             });
 
-            customer.save((err) => {
-                if(err) {
-                    done(err);
-                } else {
-                    expect(customer.phoneNumber).to.equal('+18888675309');
-                    expect(customer.ntlFormat).to.equal('(888) 867-5309');
-                    expect(customer.intlFormat).to.equal('+1 888-867-5309');
-                    expect(customer.ccode).to.equal('US');
-                    done();
+            return customer.save().then(function () {
+                expect(customer.phoneNumber).to.equal('+18888675309');
+                expect(customer.ntlFormat).to.equal('(888) 867-5309');
+                expect(customer.intlFormat).to.equal('+1 888-867-5309');
+                expect(customer.ccode).to.equal('US');
+            });
+        });
+    });
+
+    describe('with subdoc and default overrides', function() {
+        var testSchema, CustomerSubdocOverrides;
+
+        before(function() {
+            testSchema = customerSubocOverrideSchema();
+            testSchema.plugin(mongooseIntlPhoneNumber, {
+                hook: 'save',
+                phoneNumberField: 'contact.phoneNumber',
+                nationalFormatField: 'contact.nationalFormat',
+                internationalFormatField: 'contact.internationalFormat',
+                countryCodeField: 'contact.countryCode',
+            });
+            CustomerSubdocOverrides = connection.model('CustomerSubdocOverrides', testSchema);
+        });
+
+        it('should parse the phone number and store the data to the specified fields', function() {
+            var customer = new CustomerSubdocOverrides({
+                firstName: 'test',
+                lastName: 'customer',
+                customerType: 'testing',
+                contact: {
+                    phoneNumber: '+18888675309',
+                    email: 'test@testing.com'
                 }
+            });
+
+            return customer.save().then(function () {
+                expect(customer.contact.phoneNumber).to.equal('+18888675309');
+                expect(customer.contact.nationalFormat).to.equal('(888) 867-5309');
+                expect(customer.contact.internationalFormat).to.equal('+1 888-867-5309');
+                expect(customer.contact.countryCode).to.equal('US');
             });
         });
     });

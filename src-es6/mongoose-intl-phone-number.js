@@ -62,18 +62,27 @@ function mongooseIntlPhoneNumber(schema, {
     countryCodeField = 'countryCode'
 } = {}) {
 
+    // If paths don't exist in schema add them
+    [phoneNumberField, nationalFormatField, internationalFormatField, countryCodeField].forEach(function (path) {
+        if (!schema.path(path)) {
+            schema.add({
+                [path]: { type: String }
+            });
+        }
+    });
+
     schema.pre(hook, function parsePhoneNumber(next) {
         // Only return validation errors if the document is new or phone number has been modified.
-        if(this.isNew || this.isDirectModified('phoneNumber')) {
+        if (this.isNew || this.isDirectModified(phoneNumberField)) {
             try {
-                let phoneNumber = this[phoneNumberField];
+                let phoneNumber = this.get(phoneNumberField);
                 let intlPhoneNumber = new IntlPhoneNumber(phoneNumber);
 
-                if(intlPhoneNumber.isValid) {
-                    this[phoneNumberField] = intlPhoneNumber.e164Format;
-                    this[nationalFormatField] = intlPhoneNumber.nationalFormat;
-                    this[internationalFormatField] = intlPhoneNumber.internationalFormat;
-                    this[countryCodeField] = intlPhoneNumber.countryCode;
+                if (intlPhoneNumber.isValid) {
+                    this.set(phoneNumberField, intlPhoneNumber.e164Format);
+                    this.set(nationalFormatField, intlPhoneNumber.nationalFormat);
+                    this.set(internationalFormatField, intlPhoneNumber.internationalFormat);
+                    this.set(countryCodeField, intlPhoneNumber.countryCode);
                     next();
 
                 } else {
