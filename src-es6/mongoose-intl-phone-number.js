@@ -52,7 +52,7 @@ Resulting document...
  * @param  {string} [options.phoneNumberField=phoneNumber]
  * @param  {string} [options.nationalFormatField=nationalFormat]
  * @param  {string} [options.internationalFormatField=internationalFormat]
- * @param  {string} [options.phoneNumberField=countryCode]
+ * @param  {string} [options.countryCodeField=countryCode]
  */
 function mongooseIntlPhoneNumber(schema, {
     hook = 'validate',

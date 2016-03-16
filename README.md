@@ -76,5 +76,5 @@ Attaches the mongoose document hook and parses the phone number that is provided
 | [options.phoneNumberField] | <code>string</code> | <code>&quot;phoneNumber&quot;</code> |  |
 | [options.nationalFormatField] | <code>string</code> | <code>&quot;nationalFormat&quot;</code> |  |
 | [options.internationalFormatField] | <code>string</code> | <code>&quot;internationalFormat&quot;</code> |  |
-| [options.phoneNumberField] | <code>string</code> | <code>&quot;countryCode&quot;</code> |  |
+| [options.countryCodeField] | <code>string</code> | <code>&quot;countryCode&quot;</code> |  |
 
