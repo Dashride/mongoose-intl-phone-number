@@ -34,7 +34,7 @@ function customerSubocOverrideSchema() {
 
 describe('Mongoose plugin: mongoose-intl-phone-number', function() {
     before((done) => {
-        connection = mongoose.createConnection('mongodb://192.168.99.100:32780/unit_test');
+        connection = mongoose.createConnection(process.env.MONGO_URL || 'mongodb://localhost/unit_test');
         connection.once('connected', () => {
             done();
         });
