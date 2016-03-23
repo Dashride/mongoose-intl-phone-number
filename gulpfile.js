@@ -1,6 +1,6 @@
 'use strict';
 
-require('babel/register');
+require('babel-core/register');
 
 var fs = require('fs'),
     gulp = require('gulp'),
