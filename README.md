@@ -19,6 +19,7 @@ Applications that accept international phone numbers should use this plugin to g
 
 ## API Reference
 <a name="module_mongooseIntlPhoneNumber"></a>
+
 ## mongooseIntlPhoneNumber
 Validates a phone number against google's libphonenumber, otherwise returns a validation error.
 
@@ -63,6 +64,7 @@ Resulting document...
 }
  ```
 <a name="module_mongooseIntlPhoneNumber..mongooseIntlPhoneNumber"></a>
+
 ### mongooseIntlPhoneNumber~mongooseIntlPhoneNumber(schema, [options])
 Attaches the mongoose document hook and parses the phone number that is provided.
 
