@@ -8,8 +8,7 @@
     "test": "gulp test",
     "coveralls": "gulp coveralls",
     "travis": "npm run coveralls -s && ((cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js) || exit 0)",
-    "docs": "gulp docs",
-    "prepublish": "npm run compile && npm run docs"
+    "docs": "gulp docs"
   },
   "repository": {
     "type": "git",
