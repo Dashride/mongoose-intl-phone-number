@@ -45,7 +45,7 @@
     "jshint": "^2.9.1",
     "jshint-stylish": "^2.0.1",
     "mocha": "^2.2.5",
-    "mongoose": "^4.2.2"
+    "mongoose": "^4.4.17"
   },
   "dependencies": {
     "libphonenumber": "0.0.10"
