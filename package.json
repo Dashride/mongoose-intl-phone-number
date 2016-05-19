@@ -1,6 +1,5 @@
 {
   "name": "mongoose-intl-phone-number",
-  "version": "0.4.3",
   "description": "A configurable mongoose.js plugin that parses phone numbers and stores data about them in the document.",
   "main": "index.js",
   "scripts": {
@@ -9,7 +8,8 @@
     "coveralls": "gulp coveralls",
     "travis": "npm run coveralls -s && ((cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js) || exit 0)",
     "docs": "gulp docs",
-    "prepublish": "npm run compile && npm run docs"
+    "prepublish": "npm run compile && npm run docs",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
     "type": "git",
@@ -45,7 +45,8 @@
     "jshint": "^2.9.1",
     "jshint-stylish": "^2.0.1",
     "mocha": "^2.2.5",
-    "mongoose": "^4.4.17"
+    "mongoose": "^4.4.17",
+    "semantic-release": "^4.3.5"
   },
   "dependencies": {
     "libphonenumber": "0.0.10"
