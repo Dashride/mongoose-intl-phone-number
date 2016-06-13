@@ -45,7 +45,7 @@
     "jshint": "^2.9.1",
     "jshint-stylish": "^2.0.1",
     "mocha": "^2.2.5",
-    "mongoose": "^4.4.17",
+    "mongoose": "^4.5.0",
     "semantic-release": "^4.3.5"
   },
   "dependencies": {
