@@ -12,8 +12,8 @@ node_js:
   - '0.10'
 services:
   - mongodb
-before_install:
-  - npm i -g npm@^2.0.0
+script:
+  - npm run travis
 before_script:
   - npm prune
 after_success:

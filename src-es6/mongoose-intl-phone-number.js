@@ -89,8 +89,8 @@ function mongooseIntlPhoneNumber(schema, {
                     next(new Error(intlPhoneNumber.errorMsg));
                 }
 
-            } catch(e) {
-                next(new Error(e));
+            } catch (e) {
+                next(e);
             }
         } else {
             next();
