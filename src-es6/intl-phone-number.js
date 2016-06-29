@@ -1,10 +1,12 @@
-import { phoneUtil } from 'libphonenumber';
+import { PhoneNumberUtil } from 'google-libphonenumber';
+
+var phoneUtil = PhoneNumberUtil.getInstance();
 
 const PhoneNumberFormat = {
-   E164: 0,
-   INTERNATIONAL: 1,
-   NATIONAL: 2,
-   RFC3966: 3
+    E164: 0,
+    INTERNATIONAL: 1,
+    NATIONAL: 2,
+    RFC3966: 3
 };
 
 const PhoneNumberErrorCodes = {

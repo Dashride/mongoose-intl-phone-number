@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 import { expect } from 'chai';
 import { mongooseIntlPhoneNumber } from './mongoose-intl-phone-number';
 
-var Schema = mongoose.Schema,
-    connection;
+var Schema = mongoose.Schema;
+var connection;
 
 mongoose.Promise = global.Promise;
 
@@ -49,7 +49,8 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
     });
 
     describe('with default settings', function() {
-        var testSchema, Customer;
+        var testSchema;
+        var Customer;
 
         before(function() {
             testSchema = customerSchema();
@@ -67,7 +68,7 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
             });
 
             customer.save((err) => {
-                if(err) {
+                if (err) {
                     done(err);
                 } else {
                     expect(customer.phoneNumber).to.equal('+18888675309');
@@ -145,7 +146,7 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
             });
 
             customer.save((err) => {
-                if(err) {
+                if (err) {
                     expect(err.message).to.equal('Phone number is not valid. Number is too long.');
                     done();
                 } else {
@@ -164,7 +165,7 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
             });
 
             customer.save((err) => {
-                if(err) {
+                if (err) {
                     expect(err.message).to.equal('Phone number is not valid. Number is too short.');
                     done();
                 } else {
@@ -183,7 +184,7 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
             });
 
             customer.save((err) => {
-                if(err) {
+                if (err) {
                     expect(err.message).to.equal('Invalid country calling code');
                     done();
                 } else {
@@ -202,7 +203,7 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
             });
 
             customer.save((err) => {
-                if(err) {
+                if (err) {
                     expect(err.message).to.equal('Phone number is not valid. Number is unknown.');
                     done();
                 } else {
@@ -213,7 +214,8 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
     });
 
     describe('with default overrides', function() {
-        var testSchema, CustomerOverrides;
+        var testSchema;
+        var CustomerOverrides;
 
         before(function() {
             testSchema = customerSchema();
@@ -246,7 +248,8 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
     });
 
     describe('with subdoc and default overrides', function() {
-        var testSchema, CustomerSubdocOverrides;
+        var testSchema;
+        var CustomerSubdocOverrides;
 
         before(function() {
             testSchema = customerSubocOverrideSchema();
