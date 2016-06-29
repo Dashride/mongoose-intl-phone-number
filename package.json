@@ -37,7 +37,7 @@
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.0",
-    "gulp-istanbul": "^0.10.0",
+    "gulp-istanbul": "^1.0.0",
     "gulp-jsdoc-to-markdown": "^1.1.1",
     "gulp-jshint": "^2.0.0",
     "gulp-mocha": "^2.1.3",
