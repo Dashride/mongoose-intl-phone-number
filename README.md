@@ -1,5 +1,7 @@
 mongoose-intl-phone-number
 ====================
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/Dashride/mongoose-intl-phone-number.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/Dashride/mongoose-intl-phone-number.svg?branch=master)](https://travis-ci.org/Dashride/mongoose-intl-phone-number)
 [![Coverage Status](https://coveralls.io/repos/Dashride/mongoose-intl-phone-number/badge.svg?branch=master&service=github)](https://coveralls.io/github/Dashride/mongoose-intl-phone-number?branch=master)
 [![Dependency Status](https://david-dm.org/Dashride/mongoose-intl-phone-number.svg)](https://david-dm.org/Dashride/mongoose-intl-phone-number)
