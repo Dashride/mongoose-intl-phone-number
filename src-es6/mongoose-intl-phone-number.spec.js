@@ -1,9 +1,11 @@
-import mongoose from 'mongoose';
-import { expect } from 'chai';
-import { mongooseIntlPhoneNumber } from './mongoose-intl-phone-number';
+'use strict';
 
-var Schema = mongoose.Schema;
-var connection;
+const mongoose = require('mongoose');
+const { expect } = require('chai');
+const { mongooseIntlPhoneNumber } = require('./mongoose-intl-phone-number');
+
+const Schema = mongoose.Schema;
+let connection;
 
 mongoose.Promise = global.Promise;
 
@@ -35,31 +37,27 @@ function customerSubocOverrideSchema() {
 describe('Mongoose plugin: mongoose-intl-phone-number', function() {
     before((done) => {
         connection = mongoose.createConnection(process.env.MONGO_URL || 'mongodb://localhost/unit_test');
-        connection.once('connected', () => {
-            done();
-        });
+        connection.once('connected', done);
     });
 
     after((done) => {
         connection.db.dropDatabase(() => {
-            connection.close(() => {
-                done();
-            });
+            connection.close(done);
         });
     });
 
     describe('with default settings', function() {
-        var testSchema;
-        var Customer;
+        let testSchema;
+        let Customer;
 
         before(function() {
             testSchema = customerSchema();
-            Customer = connection.model('Customer', testSchema);
             testSchema.plugin(mongooseIntlPhoneNumber);
+            Customer = connection.model('Customer', testSchema);
         });
 
-        it('should parse the phone number and store the data to their default fields', function(done) {
-            let customer = new Customer({
+        it('should parse the phone number and store the data to their default fields', function() {
+            const customer = new Customer({
                 firstName: 'test',
                 lastName: 'customer',
                 customerType: 'testing',
@@ -67,21 +65,16 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
                 email: 'test@testing.com'
             });
 
-            customer.save((err) => {
-                if (err) {
-                    done(err);
-                } else {
-                    expect(customer.phoneNumber).to.equal('+18888675309');
-                    expect(customer.nationalFormat).to.equal('(888) 867-5309');
-                    expect(customer.internationalFormat).to.equal('+1 888-867-5309');
-                    expect(customer.countryCode).to.equal('US');
-                    done();
-                }
+            return customer.save(function(customer) {
+                expect(customer.phoneNumber).to.equal('+18888675309');
+                expect(customer.nationalFormat).to.equal('(888) 867-5309');
+                expect(customer.internationalFormat).to.equal('+1 888-867-5309');
+                expect(customer.countryCode).to.equal('US');
             });
         });
 
-        it('should not throw an error if the number was incorrect and not directly modified', function(done) {
-            let customer = new Customer({
+        it('should not throw an error if the number was incorrect and not directly modified', function() {
+            const customer = new Customer({
                 firstName: 'test',
                 lastName: 'customer',
                 customerType: 'testing',
@@ -89,7 +82,7 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
                 email: 'test@testing.com'
             });
 
-            customer.save().then((customer) => {
+            return customer.save().then((customer) => {
                 return Customer.findOneAndUpdate({
                     _id: customer._id
                 }, {
@@ -99,23 +92,17 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
                 }, {
                     new: true
                 }).exec();
-            })
-            .then((customer) => {
+            }).then((customer) => {
                 customer.firstName = 'testing';
                 return customer.save();
-            })
-            .then((customer) => {
+            }).then((customer) => {
                 expect(customer.phoneNumber).to.equal('+188886753099');
                 expect(customer.firstName).to.equal('testing');
-                done();
-            })
-            .catch((err) => {
-                done(err);
             });
         });
 
-        it('should throw an error if the number was directly modified and incorrect', function(done) {
-            let customer = new Customer({
+        it('should throw an error if the number was directly modified and incorrect', function() {
+            const customer = new Customer({
                 firstName: 'test',
                 lastName: 'customer',
                 customerType: 'testing',
@@ -123,21 +110,18 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
                 email: 'test@testing.com'
             });
 
-            customer.save().then((customer) => {
+            return customer.save().then((customer) => {
                 customer.phoneNumber = '+188886753099';
                 return customer.save();
-            })
-            .then((customer) => {
-                done(new Error('No error was thrown'));
-            })
-            .catch((err) => {
+            }).then((customer) => {
+                throw new Error('No error was thrown');
+            }).catch((err) => {
                 expect(err.message).to.equal('Phone number is not valid. Number is too long.');
-                done();
             });
         });
 
-        it('should throw an error if the number is too long', function(done) {
-            let customer = new Customer({
+        it('should throw an error if the number is too long', function() {
+            const customer = new Customer({
                 firstName: 'test',
                 lastName: 'customer',
                 customerType: 'testing',
@@ -145,18 +129,15 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
                 email: 'test@testing.com'
             });
 
-            customer.save((err) => {
-                if (err) {
-                    expect(err.message).to.equal('Phone number is not valid. Number is too long.');
-                    done();
-                } else {
-                    done(new Error('no error was thrown'));
-                }
+            return customer.save().then((customer) => {
+                throw new Error('no error was thrown');
+            }).catch((err) => {
+                expect(err.message).to.equal('Phone number is not valid. Number is too long.');
             });
         });
 
-        it('should throw an error if the number is too short', function(done) {
-            let customer = new Customer({
+        it('should throw an error if the number is too short', function() {
+            const customer = new Customer({
                 firstName: 'test',
                 lastName: 'customer',
                 customerType: 'testing',
@@ -164,18 +145,15 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
                 email: 'test@testing.com'
             });
 
-            customer.save((err) => {
-                if (err) {
-                    expect(err.message).to.equal('Phone number is not valid. Number is too short.');
-                    done();
-                } else {
-                    done(new Error('no error was thrown'));
-                }
+            customer.save().then((customer) => {
+                throw new Error('no error was thrown');
+            }).catch((err) => {
+                expect(err.message).to.equal('Phone number is not valid. Number is too short.');
             });
         });
 
-        it('should throw an error if the number does not have a valid country code', function(done) {
-            let customer = new Customer({
+        it('should throw an error if the number does not have a valid country code', function() {
+            const customer = new Customer({
                 firstName: 'test',
                 lastName: 'customer',
                 customerType: 'testing',
@@ -183,18 +161,15 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
                 email: 'test@testing.com'
             });
 
-            customer.save((err) => {
-                if (err) {
-                    expect(err.message).to.equal('Invalid country calling code');
-                    done();
-                } else {
-                    done(new Error('no error was thrown'));
-                }
+            customer.save().then((customer) => {
+                throw new Error('no error was thrown');
+            }).catch((err) => {
+                expect(err.message).to.equal('Invalid country calling code');
             });
         });
 
-        it('should throw an error if the number is unknown', function(done) {
-            let customer = new Customer({
+        it('should throw an error if the number is unknown', function() {
+            const customer = new Customer({
                 firstName: 'test',
                 lastName: 'customer',
                 customerType: 'testing',
@@ -202,20 +177,17 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
                 email: 'test@testing.com'
             });
 
-            customer.save((err) => {
-                if (err) {
-                    expect(err.message).to.equal('Phone number is not valid. Number is unknown.');
-                    done();
-                } else {
-                    done(new Error('no error was thrown'));
-                }
+            customer.save().then((customer) => {
+                throw new Error('no error was thrown');
+            }).catch((err) => {
+                expect(err.message).to.equal('Phone number is not valid. Number is unknown.');
             });
         });
     });
 
     describe('with default overrides', function() {
-        var testSchema;
-        var CustomerOverrides;
+        let testSchema;
+        let CustomerOverrides;
 
         before(function() {
             testSchema = customerSchema();
@@ -230,7 +202,7 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
         });
 
         it('should parse the phone number and store the data to the specified fields', function() {
-            var customer = new CustomerOverrides({
+            const customer = new CustomerOverrides({
                 firstName: 'test',
                 lastName: 'customer',
                 customerType: 'testing',
@@ -238,7 +210,7 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
                 email: 'test@testing.com'
             });
 
-            return customer.save().then(function () {
+            return customer.save().then(() => {
                 expect(customer.phoneNumber).to.equal('+18888675309');
                 expect(customer.ntlFormat).to.equal('(888) 867-5309');
                 expect(customer.intlFormat).to.equal('+1 888-867-5309');
@@ -248,8 +220,8 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
     });
 
     describe('with subdoc and default overrides', function() {
-        var testSchema;
-        var CustomerSubdocOverrides;
+        let testSchema;
+        let CustomerSubdocOverrides;
 
         before(function() {
             testSchema = customerSubocOverrideSchema();
@@ -264,7 +236,7 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
         });
 
         it('should parse the phone number and store the data to the specified fields', function() {
-            var customer = new CustomerSubdocOverrides({
+            const customer = new CustomerSubdocOverrides({
                 firstName: 'test',
                 lastName: 'customer',
                 customerType: 'testing',
@@ -274,7 +246,7 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
                 }
             });
 
-            return customer.save().then(function () {
+            return customer.save().then(() => {
                 expect(customer.contact.phoneNumber).to.equal('+18888675309');
                 expect(customer.contact.nationalFormat).to.equal('(888) 867-5309');
                 expect(customer.contact.internationalFormat).to.equal('+1 888-867-5309');
