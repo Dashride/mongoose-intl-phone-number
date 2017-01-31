@@ -52,8 +52,8 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
 
         before(function() {
             testSchema = customerSchema();
-            Customer = connection.model('Customer', testSchema);
             testSchema.plugin(mongooseIntlPhoneNumber);
+            Customer = connection.model('Customer', testSchema);
         });
 
         it('should parse the phone number and store the data to their default fields', function() {
