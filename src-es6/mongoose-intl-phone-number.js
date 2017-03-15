@@ -75,7 +75,7 @@ function mongooseIntlPhoneNumber(schema, {
     schema.pre(hook, function parsePhoneNumber(next) {
         // Only return validation errors if the document is new or phone number has been modified.
         let phoneNumber = this.get(phoneNumberField);
-        if ((this.isNew || this.isDirectModified(phoneNumberField)) && (!optionalPhoneNumber || (optionalPhoneNumber && (phoneNumber !== undefined) ))) {
+        if ((this.isNew || this.isDirectModified(phoneNumberField)) && (!optionalPhoneNumber || (optionalPhoneNumber && phoneNumber !== undefined && phoneNumber !== "" && phoneNumber !== null ))) {
             try {
                 let intlPhoneNumber = new IntlPhoneNumber(phoneNumber);
 

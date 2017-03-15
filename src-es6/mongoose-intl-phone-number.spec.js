@@ -231,7 +231,7 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
             CustomerOverrides = connection.model('CustomerOptionalOverrides', testSchema);
         });
 
-        it('should parse the phone number and store the data to the specified fields', function() {
+        it('should store the data to the specified fields when phone number is missing', function() {
             const customer = new CustomerOverrides({
                 firstName: 'test',
                 lastName: 'customer',
@@ -248,6 +248,43 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
                 expect(customer.firstName).to.equal('test');
             });
         });
+
+        it('should store the data to the specified fields when phone number is null', function() {
+            const customer = new CustomerOverrides({
+                firstName: 'test',
+                lastName: 'customer',
+                customerType: 'testing',
+                phoneNumber: null,
+                email: 'test@testing.com'
+            });
+
+            return customer.save().then(() => {
+                expect(customer.phoneNumber).to.be.nil;
+                expect(customer.ntlFormat).to.be.undefined;
+                expect(customer.intlFormat).to.be.undefined;
+                expect(customer.ccode).to.be.undefined;
+                expect(customer.firstName).to.equal('test');
+            });
+        });
+
+        it('should store the data to the specified fields when phone number is empty', function() {
+            const customer = new CustomerOverrides({
+                firstName: 'test',
+                lastName: 'customer',
+                customerType: 'testing',
+                phoneNumber: "",
+                email: 'test@testing.com'
+            });
+
+            return customer.save().then(() => {
+                expect(customer.phoneNumber).to.equal('');
+                expect(customer.ntlFormat).to.be.undefined;
+                expect(customer.intlFormat).to.be.undefined;
+                expect(customer.ccode).to.be.undefined;
+                expect(customer.firstName).to.equal('test');
+            });
+        });
+
 
         it('should parse the phone number and store the data to the specified fields', function() {
             const customer = new CustomerOverrides({
