@@ -219,6 +219,91 @@ describe('Mongoose plugin: mongoose-intl-phone-number', function() {
         });
     });
 
+    describe('with optional overrides', function() {
+        let testSchema;
+        let CustomerOverrides;
+
+        before(function() {
+            testSchema = customerSchema();
+            testSchema.plugin(mongooseIntlPhoneNumber, {
+                optionalPhoneNumber: true
+            });
+            CustomerOverrides = connection.model('CustomerOptionalOverrides', testSchema);
+        });
+
+        it('should store the data to the specified fields when phone number is missing', function() {
+            const customer = new CustomerOverrides({
+                firstName: 'test',
+                lastName: 'customer',
+                customerType: 'testing',
+                phoneNumber: undefined,
+                email: 'test@testing.com'
+            });
+
+            return customer.save().then(() => {
+                expect(customer.phoneNumber).to.be.undefined;
+                expect(customer.ntlFormat).to.be.undefined;
+                expect(customer.intlFormat).to.be.undefined;
+                expect(customer.ccode).to.be.undefined;
+                expect(customer.firstName).to.equal('test');
+            });
+        });
+
+        it('should store the data to the specified fields when phone number is null', function() {
+            const customer = new CustomerOverrides({
+                firstName: 'test',
+                lastName: 'customer',
+                customerType: 'testing',
+                phoneNumber: null,
+                email: 'test@testing.com'
+            });
+
+            return customer.save().then(() => {
+                expect(customer.phoneNumber).to.be.nil;
+                expect(customer.ntlFormat).to.be.undefined;
+                expect(customer.intlFormat).to.be.undefined;
+                expect(customer.ccode).to.be.undefined;
+                expect(customer.firstName).to.equal('test');
+            });
+        });
+
+        it('should store the data to the specified fields when phone number is empty', function() {
+            const customer = new CustomerOverrides({
+                firstName: 'test',
+                lastName: 'customer',
+                customerType: 'testing',
+                phoneNumber: "",
+                email: 'test@testing.com'
+            });
+
+            return customer.save().then(() => {
+                expect(customer.phoneNumber).to.equal('');
+                expect(customer.ntlFormat).to.be.undefined;
+                expect(customer.intlFormat).to.be.undefined;
+                expect(customer.ccode).to.be.undefined;
+                expect(customer.firstName).to.equal('test');
+            });
+        });
+
+
+        it('should parse the phone number and store the data to the specified fields', function() {
+            const customer = new CustomerOverrides({
+                firstName: 'test',
+                lastName: 'customer',
+                customerType: 'testing',
+                phoneNumber: '+18888675309',
+                email: 'test@testing.com'
+            });
+
+            return customer.save().then(() => {
+                expect(customer.phoneNumber).to.equal('+18888675309');
+                expect(customer.nationalFormat).to.equal('(888) 867-5309');
+                expect(customer.internationalFormat).to.equal('+1 888-867-5309');
+                expect(customer.countryCode).to.equal('US');
+            });
+        });
+    });
+
     describe('with subdoc and default overrides', function() {
         let testSchema;
         let CustomerSubdocOverrides;

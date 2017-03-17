@@ -59,7 +59,8 @@ function mongooseIntlPhoneNumber(schema, {
     phoneNumberField = 'phoneNumber',
     nationalFormatField = 'nationalFormat',
     internationalFormatField = 'internationalFormat',
-    countryCodeField = 'countryCode'
+    countryCodeField = 'countryCode',
+    optionalPhoneNumber = false
 } = {}) {
 
     // If paths don't exist in schema add them
@@ -73,9 +74,9 @@ function mongooseIntlPhoneNumber(schema, {
 
     schema.pre(hook, function parsePhoneNumber(next) {
         // Only return validation errors if the document is new or phone number has been modified.
-        if (this.isNew || this.isDirectModified(phoneNumberField)) {
+        let phoneNumber = this.get(phoneNumberField);
+        if ((this.isNew || this.isDirectModified(phoneNumberField)) && (!optionalPhoneNumber || (optionalPhoneNumber && phoneNumber !== undefined && phoneNumber !== "" && phoneNumber !== null ))) {
             try {
-                let phoneNumber = this.get(phoneNumberField);
                 let intlPhoneNumber = new IntlPhoneNumber(phoneNumber);
 
                 if (intlPhoneNumber.isValid) {
