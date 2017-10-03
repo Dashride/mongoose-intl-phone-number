@@ -40,7 +40,7 @@
     "isparta": "^4.0.0",
     "jshint": "^2.9.3",
     "jshint-stylish": "^2.0.1",
-    "mocha": "^3.4.1",
+    "mocha": "^4.0.0",
     "mongoose": "^4.8.1",
     "semantic-release": "^6.3.6"
   },
