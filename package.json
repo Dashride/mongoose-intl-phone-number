@@ -28,8 +28,8 @@
   },
   "homepage": "https://github.com/Dashride/mongoose-intl-phone-number",
   "devDependencies": {
-    "chai": "^3.2.0",
     "coveralls": "^3.0.0",
+    "chai": "^4.1.2",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
     "gulp-istanbul": "^1.0.0",
@@ -40,12 +40,12 @@
     "isparta": "^4.0.0",
     "jshint": "^2.9.3",
     "jshint-stylish": "^2.0.1",
-    "mocha": "^3.4.1",
+    "mocha": "^4.0.1",
     "mongoose": "^4.8.1",
     "semantic-release": "^6.3.6"
   },
   "dependencies": {
-    "google-libphonenumber": "^2.0.15",
+    "google-libphonenumber": "^3.0.9",
     "lodash": "^4.17.4"
   }
 }
