@@ -42,7 +42,7 @@
     "jshint-stylish": "^2.0.1",
     "mocha": "^4.0.1",
     "mongoose": "^4.8.1",
-    "semantic-release": "^6.3.6"
+    "semantic-release": "^7.0.1"
   },
   "dependencies": {
     "google-libphonenumber": "^3.0.9",
