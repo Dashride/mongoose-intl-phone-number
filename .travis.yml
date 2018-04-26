@@ -9,6 +9,7 @@ node_js:
   - '9'
   - '8'
   - '4'
+  - '10'
 services:
   - mongodb
 script:
