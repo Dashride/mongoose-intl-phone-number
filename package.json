@@ -46,6 +46,6 @@
   },
   "dependencies": {
     "google-libphonenumber": "^3.0.9",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.5"
   }
 }
