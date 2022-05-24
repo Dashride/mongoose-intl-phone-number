@@ -40,12 +40,12 @@
     "isparta": "^4.0.0",
     "jshint": "^2.9.3",
     "jshint-stylish": "^2.0.1",
-    "mocha": "^5.0.0",
+    "mocha": "^4.0.1",
     "mongoose": "^4.8.1",
-    "semantic-release": "^11.0.2"
+    "semantic-release": "^8.2.0"
   },
   "dependencies": {
-    "google-libphonenumber": "^3.0.9",
+    "google-libphonenumber": "^3.2.27",
     "lodash": "^4.17.4"
   }
 }
