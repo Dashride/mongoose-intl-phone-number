@@ -45,7 +45,7 @@
     "semantic-release": "^8.2.0"
   },
   "dependencies": {
-    "google-libphonenumber": "^3.2.27",
+    "google-libphonenumber": "^3.2.32",
     "lodash": "^4.17.4"
   }
 }
